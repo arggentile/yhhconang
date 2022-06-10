@@ -1,0 +1,50 @@
+version: '2'
+ 
+services:
+    apache:
+        image: yiisoftware/yii2-php:7.2-apache
+        environment:
+            - TZ=America/Buenos_Aires
+            - PHP_ENABLE_XDEBUG=${PHP_ENABLE_XDEBUG}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
+        ports:
+            - "${PHP_LOCAL_PORT}:80"    
+        depends_on:
+            - postgres
+        volumes:
+            - ./api:/app
+        # - ./xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    
+    postgres:
+        image: mpdev:5000/mppostgres:9.4.9
+        ports:
+            - "${POSTGRES_LOCAL_PORT}:5432"
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+            TZ: America/Buenos_Aires
+        volumes:
+            # - ./initDB.sql:/docker-entrypoint-initdb.d/init.sql
+            - pgdata:/var/lib/postgresql/data
+
+    angular:
+        image: trion/ng-cli:13.3.4
+        command: ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check", "--poll=2000"]
+        ports:
+            - "${ANGULAR_LOCAL_PORT}:4200"
+        volumes:
+            # - ./initDB.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./front:/app
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: "${SUBNET_DOCKER_NETWORK}"
+       
+volumes:
+  pgdata:
