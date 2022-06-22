@@ -9,12 +9,15 @@ import { Establecimiento} from '@shared/interfecs/IEstablecimiento.interface';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
+  controll = new FormControl('');
+
   form = new FormGroup({
     fieldNombre: new FormControl('', Validators.required),
     fieldNivelEducativo: new FormControl('Nivel Eductivoo', Validators.required),
     fieldCalle: new FormControl('Calle'),
     fieldTelefono: new FormControl('Telefono')
   });
+
   /*fieldNombre = new FormControl('', Validators.required);
   fieldNivelEducativo = new FormControl('Nivel Eductivoo', Validators.required);
   fieldCalle = new FormControl('Calle');
@@ -27,6 +30,12 @@ export class CreateComponent implements OnInit {
     .subscribe( value => {
       console.log("El valoir es: "  + value);
     })*/
+  }
+
+  onSubmit() {
+    console.log("·dsadasdsadasdsad");
+    console.log(this.form.invalid);
+    console.log(this.form.controls);
   }
 
 }

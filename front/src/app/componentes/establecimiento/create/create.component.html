@@ -1,5 +1,5 @@
 
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
     <input formControlName="fieldNombre" type="text" />  -- <br /> 
     <select formControlName="fieldNivelEducativo">  
     <option value="1"> Primario</option>
@@ -10,5 +10,7 @@
         -- <br />
     <input formControlName="fieldCalle" type="email" /> dassda -- <br />
     <input formControlName="fieldTelefono" type="text" />  -- <br />
-    
+    <input type="submit" value="sad" name="enviarForm" />
 </form>
+<input [formControl]="controll" type="text" />  
+<code> <pre> {{ controll.value }} </pre></code>
